@@ -46,7 +46,7 @@ write_asset_manifest_item() {
     sha="$(sha256_file "$DIST_DIR/$file")"
     size="$(wc -c < "$DIST_DIR/$file" | tr -d ' ')"
     github_url="https://github.com/$GITHUB_REPO/releases/latest/download/$file"
-    gitee_url="https://gitee.com/$GITEE_REPO/releases/download/latest/$file"
+    gitee_url="https://gitee.com/$GITEE_REPO/raw/main/dist/$file"
 
     jq -n \
         --arg tag "$tag" \
