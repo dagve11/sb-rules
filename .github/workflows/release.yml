@@ -1,6 +1,12 @@
 name: Release rule sets
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/release.yml"
+      - "scripts/build-rules.sh"
   workflow_dispatch:
   schedule:
     - cron: "17 3 * * *"
@@ -37,4 +43,3 @@ jobs:
             dist/geoip-cn.json
             dist/manifest.json
             dist/SHA256SUMS
-
