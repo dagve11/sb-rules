@@ -104,8 +104,10 @@ main() {
     "$sing_box" rule-set compile -o "$DIST_DIR/geosite-cn.srs" "$DIST_DIR/geosite-cn.json"
     "$sing_box" rule-set compile -o "$DIST_DIR/geoip-cn.srs" "$DIST_DIR/geoip-cn.json"
 
-    sha256sum "$DIST_DIR"/geosite-cn.json "$DIST_DIR"/geoip-cn.json \
-        "$DIST_DIR"/geosite-cn.srs "$DIST_DIR"/geoip-cn.srs > "$DIST_DIR/SHA256SUMS"
+    (
+        cd "$DIST_DIR"
+        sha256sum geosite-cn.json geoip-cn.json geosite-cn.srs geoip-cn.srs > SHA256SUMS
+    )
 
     local generated_at
     generated_at="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
