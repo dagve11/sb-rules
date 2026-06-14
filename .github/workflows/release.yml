@@ -1,0 +1,40 @@
+name: Release rule sets
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 3 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Build rule sets
+        run: ./scripts/build-rules.sh
+
+      - name: Set release tag
+        run: echo "RELEASE_TAG=rules-$(date -u +%Y%m%d%H%M%S)" >> "$GITHUB_ENV"
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.RELEASE_TAG }}
+          name: ${{ env.RELEASE_TAG }}
+          make_latest: true
+          files: |
+            dist/geosite-cn.srs
+            dist/geoip-cn.srs
+            dist/geosite-cn.json
+            dist/geoip-cn.json
+            dist/manifest.json
+            dist/SHA256SUMS
+
